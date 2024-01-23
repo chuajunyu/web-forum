@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :posts
+  get '/postsbyuser', to: 'posts#show_by_user'
   resources :users
   get '/usersbyname', to: 'users#show_by_name'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
