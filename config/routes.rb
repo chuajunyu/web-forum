@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :comments
+  get '/commentsbypost', to: 'comments#show_by_post'
   resources :posts
   get '/postsbyuser', to: 'posts#show_by_user'
   resources :users

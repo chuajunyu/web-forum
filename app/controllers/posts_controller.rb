@@ -16,11 +16,7 @@ class PostsController < ApplicationController
   # GET /postsbyuser
   def show_by_user
     @user = User.find(params[:id])
-    if @user
-      render json: @user.posts
-    else
-      render json: { status: 404, error: "Not Found" }, status: :not_found
-    end
+    render json: @user.posts
   end
 
   # POST /posts
