@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       render json: @user
   end
 
-  # GET /users/name
+  # GET /usersbyname
   def show_by_name
     @user = User.find_by(name: params[:name])
     if @user
@@ -38,9 +38,11 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
+    # Updates the amount of supervotes that a user has
     @user.lastseen ||= DateTime.current() # Set @user.lastseen to the current date and time if it's nil
-    if (DateTime.current() - @user.lastseen.to_datetime) > 0.01
-      # User last seen more than 24 hours ago
+    
+    # User last seen more than 24 hours ago
+    if (DateTime.current() - @user.lastseen.to_datetime) > 0.01  # TODO: Change this to 24 hours when done testing
       @user.supervote += 1
       @user.lastseen = DateTime.current()
       @user.save
@@ -63,8 +65,8 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+    # Only allow name through
     def user_params
-      params.require(:user).permit(:name, :supervote, :lastseen)
+      params.require(:user).permit(:name)
     end
 end
