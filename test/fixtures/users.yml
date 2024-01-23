@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  supervote: 1
+  lastseen: 2024-01-22 21:00:16
+
+two:
+  name: MyString
+  supervote: 1
+  lastseen: 2024-01-22 21:00:16
