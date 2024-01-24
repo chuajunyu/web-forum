@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  wrap_parameters :user, include: [:name, :password]
+  skip_before_action :authorized, only: [:create]
+  rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_record
   before_action :set_user, only: %i[ show update destroy ]
 
   # GET /users
@@ -25,15 +28,15 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
-    @user.supervote = 5
-    @user.lastseen = DateTime.current()
-
-    if @user.save
-      render json: @user, status: :created, location: @user
-    else
-      render json: @user.errors, status: :unprocessable_entity
-    end
+    user = User.create!(user_params)
+    # @user = User.new(user_params)
+    user.supervote = 5
+    user.lastseen = DateTime.current()
+    @token = encode_token(user_id: user.id)
+    render json: {
+        user: UserSerializer.new(user), 
+        token: @token
+    }, status: :created
   end
 
   # PATCH/PUT /users/1
@@ -67,6 +70,10 @@ class UsersController < ApplicationController
 
     # Only allow name through
     def user_params
-      params.require(:user).permit(:name)
+      params.require(:user).permit(:name, :password)
+    end
+
+    def handle_invalid_record(e)
+      render json: { errors: e.record.errors.full_messages }, status: :unprocessable_entity
     end
 end
