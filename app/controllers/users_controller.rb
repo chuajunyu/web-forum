@@ -32,8 +32,10 @@ class UsersController < ApplicationController
     # @user = User.new(user_params)
     user.supervote = 5
     user.lastseen = DateTime.current()
+    user.save
     @token = encode_token(user_id: user.id)
     render json: {
+        success: true,
         user: UserSerializer.new(user), 
         token: @token
     }, status: :created
