@@ -26,6 +26,11 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /me
+  def me 
+    render json: current_user, status: :ok
+  end
+
   # POST /users
   def create
     user = User.create!(user_params)
