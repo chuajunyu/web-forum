@@ -4,5 +4,5 @@ set -o errexit
 
 bundle install
 bundle install --with development test
-./bin/rails assets:precompile
-./bin/rails assets:clean
+sudo ./bin/rails assets:precompile
+sudo ./bin/rails assets:clean
